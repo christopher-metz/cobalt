@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'app.apps.AppConfig',
     'server.apps.ServerConfig',
     'webpack_loader',
+    'cloudinary',
 ]
 
 MIDDLEWARE = [

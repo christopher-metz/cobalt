@@ -1,43 +1,41 @@
 const React = require('react')
-// const axios = require('axios')
+const axios = require('axios')
 
 class Landing extends React.Component {
   constructor (props) {
     super(props)
 
     this.state = {
-      data: ['test', 'test2', 'test3']
+      photos: []
     }
+
+    this.loadPhotosFromServer = this.loadPhotosFromServer.bind(this)
   }
 
-  // loadSnippetsFromServer () {
-  //   axios.get('/snippets')
-  //     .then((res) => {
-  //       console.log(res)
-  //       this.setState({data: res.data.results})
-  //       return
-  //     })
-  // }
-  //
-  // getInitialState () {
-  //   return {data: []}
-  // }
+  loadPhotosFromServer (id) {
+    axios.get(`/server/photo_list/${id}`)
+      .then((res) => {
+        console.log(res.data)
+        this.setState({photos: res.data})
+        return
+      })
+  }
 
-  // componentDidMount () {
-  //   this.loadSnippetsFromServer()
-  // }
+  componentDidMount () {
+    this.loadPhotosFromServer(1)
+  }
+
   render () {
     return (
       <div>
-        <h1>Hello React With Snippets!</h1>
+        <h1>Hello React With Photos!</h1>
         <ul>
-          {this.state.data.map((element) => {
+          {this.state.photos.map((element) => {
             return (
-              <li>{element}</li>
+              <li key={element.id}><img src={element.photo_url} alt='picture' /></li>
             )
           })}
         </ul>
-        <div />
       </div>
     )
   }
