@@ -15,7 +15,6 @@ class Landing extends React.Component {
   loadPhotosFromServer (id) {
     axios.get(`/server/photo_list/${id}`)
       .then((res) => {
-        console.log(res.data)
         this.setState({photos: res.data})
         return
       })
