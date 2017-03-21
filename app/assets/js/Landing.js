@@ -1,40 +1,15 @@
-const React = require('react')
-const axios = require('axios')
+import React, { Component } from 'react'
+import { Link } from 'react-router'
+// import './landing.css'
+// import JumbotronComponent from '../Jumbotron'
+// import { Row, Col, Button } from 'react-bootstrap'
 
-class Landing extends React.Component {
-  constructor (props) {
-    super(props)
-
-    this.state = {
-      photos: []
-    }
-
-    this.loadPhotosFromServer = this.loadPhotosFromServer.bind(this)
-  }
-
-  loadPhotosFromServer (id) {
-    axios.get(`/server/photo_list/${id}`)
-      .then((res) => {
-        this.setState({photos: res.data})
-        return
-      })
-  }
-
-  componentDidMount () {
-    this.loadPhotosFromServer(1)
-  }
-
+class Landing extends Component {
   render () {
     return (
       <div>
-        <h1>Hello React With Photos!</h1>
-        <ul>
-          {this.state.photos.map((element) => {
-            return (
-              <li key={element.id}><img src={element.photo_url} alt='picture' /></li>
-            )
-          })}
-        </ul>
+        We are a cool style transfer app.
+        <Link to='signup'>Sign Up</Link>
       </div>
     )
   }

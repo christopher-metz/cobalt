@@ -4,7 +4,7 @@ from server.models import User, Photo
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'first_name', 'last_name', 'hashed_password')
+        fields = ('id', 'first_name', 'last_name', 'email', 'hashed_password')
 
 class PhotoSerializer(serializers.ModelSerializer):
     class Meta:

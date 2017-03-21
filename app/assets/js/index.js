@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Landing from './Landing'
+import App from './App'
 
 ReactDOM.render(
-  <Landing />,
+  <App />,
   document.getElementById('container')
 )
