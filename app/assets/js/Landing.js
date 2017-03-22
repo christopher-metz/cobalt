@@ -8,10 +8,12 @@ class Landing extends Component {
   render () {
     return (
       <div>
-        We are a cool style transfer app.
-        <Link to='signup'>Sign Up</Link>
-        <Link to='profile'>Profile</Link>
-        <Link to='login'>Login</Link>
+        <h3>We are a cool style transfer app!</h3>
+        <h2>
+          Styalize any photo in the style of 6 different famous paintings.
+        </h2>
+        <img src='http://res.cloudinary.com/dz1gs7jrp/image/upload/v1490032643/chicago_ofvxcw.jpg' alt='photo' />
+        <Link to='login'>Start Creating Art</Link>
       </div>
     )
   }

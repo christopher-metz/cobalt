@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { browserHistory } from 'react-router'
+import { browserHistory, Link } from 'react-router'
 import axios from 'axios'
 import { Row, Col, Form, FormControl, Button, FormGroup } from 'react-bootstrap'
 
@@ -104,13 +104,15 @@ class LoginForm extends Component {
                     <Button type='submit' disabled={isDisabled} className='btn btn-primary btn-md'>login <i className='fa fa-sign-in' /></Button>
                   </span>
                 </div>
-
               </Form>
-
             </Col>
           </Row>
         </div>
-
+        <div>
+          Not a mamber?
+          <Link to='signup'> sign up </Link>
+          now.
+        </div>
       </div>
     )
   }

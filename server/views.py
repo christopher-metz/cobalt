@@ -23,6 +23,9 @@ class UserList(APIView):
 
 class Session(APIView):
 
+    def get(self, request, format=None):
+        print('im here: Need to figure out if user are logged in or not')
+
     def post(self, request, format=None):
         username = request.data['username']
         password = request.data['password']
@@ -33,9 +36,11 @@ class Session(APIView):
         else:
             return Response(False, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, format=None):
-        print('im here: ')
+class Logout(APIView):
+
+    def get(self, request, format=None):
         logout(request)
+        return Response(True, status=status.HTTP_200_OK)
 
 class PhotoList(generics.ListCreateAPIView):
     permission_classes = (permissions.IsAuthenticated, IsOwner,)

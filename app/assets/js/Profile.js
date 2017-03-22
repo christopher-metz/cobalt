@@ -1,8 +1,8 @@
-const React = require('react')
+import React, { Component } from 'react'
 import { browserHistory } from 'react-router'
 const axios = require('axios')
 
-class Landing extends React.Component {
+class Profile extends Component {
   constructor (props) {
     super(props)
 
@@ -27,8 +27,9 @@ class Landing extends React.Component {
   }
 
   logout () {
-    axios.delete('/server/session')
+    axios.get('/server/logout')
       .then(response => {
+        console.log(response)
         if (response.status === 200) {
           browserHistory.push('/')
         }
@@ -41,18 +42,18 @@ class Landing extends React.Component {
   render () {
     return (
       <div>
-        <h1>Hello React With Photos!</h1>
+        <h3>Your Photos!</h3>
         <button onClick={this.logout}>Logout</button>
         <ul>
-          {this.state.photos.map((element) => {
+          {this.state.photos.length === 0 ? this.state.photos.map((element) => {
             return (
               <li key={element.id}><img src={element.photo_url} alt='picture' /></li>
             )
-          })}
+          }) : <li>You havent created any art yet!</li>}
         </ul>
       </div>
     )
   }
 }
 
-export default Landing
+export default Profile

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { browserHistory } from 'react-router'
+import { browserHistory, Link } from 'react-router'
 import { Col, Row, FormGroup, FormControl, ControlLabel, Form, Button, validationState } from 'react-bootstrap'
 import axios from 'axios'
 
@@ -158,6 +158,11 @@ class SignUpForm extends Component {
               </div>
             </div>
           </Col>
+        </div>
+        <div>
+          Already a mamber?
+          <Link to='login'> login </Link>
+          now.
         </div>
       </div>
     )
