@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { browserHistory } from 'react-router'
+import { browserHistory, Link } from 'react-router'
 const axios = require('axios')
 
 class Profile extends Component {
@@ -42,7 +42,7 @@ class Profile extends Component {
   render () {
     return (
       <div>
-        <h3>Your Photos!</h3>
+        <div><h3>Your Photos!</h3><Link to='painting'>Create Art</Link></div>
         <button onClick={this.logout}>Logout</button>
         <ul>
           {this.state.photos.length === 0 ? this.state.photos.map((element) => {

@@ -24,7 +24,10 @@ class UserList(APIView):
 class Session(APIView):
 
     def get(self, request, format=None):
-        print('im here: Need to figure out if user are logged in or not')
+        if request.user.is_authenticated:
+            return Response(True, status=status.HTTP_200_OK)
+        else:
+            return Response(False, status=status.HTTP_401_UNAUTHORIZED)
 
     def post(self, request, format=None):
         username = request.data['username']
