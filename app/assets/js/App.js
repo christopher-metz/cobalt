@@ -8,7 +8,6 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 
 class App extends Component {
   render () {
-    console.log('im here')
     return (
       <Router history={browserHistory}>
         <div>This is in the App.js file</div>

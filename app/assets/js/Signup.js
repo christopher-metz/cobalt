@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { browserHistory } from 'react-router'
+import { Col, Row, FormGroup, FormControl, ControlLabel, Form, Button, validationState } from 'react-bootstrap'
 import axios from 'axios'
 
-function validate (first_name, last_name, email, password, password_confirm) {
+function validate (username, email, password, password_confirm) {
   // True means invalid
   return {
-    first_name: first_name.length === 0,
-    last_name: last_name.length === 0,
+    username: username.length < 0,
     email: email.length === 0,
     password: password.length < 8,
     password_confirm: password !== password_confirm
@@ -17,13 +17,11 @@ class SignUpForm extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      first_name: '',
-      last_name: '',
+      username: '',
       email: '',
       password: '',
       password_confirm: '',
-      everFocusedFirstName: false,
-      everFocusedLastName: false,
+      everFocusedUsername: false,
       everFocusedEmail: false,
       everFocusedPassword: false,
       everFocusedPasswordConfirm: false,
@@ -49,28 +47,26 @@ class SignUpForm extends Component {
       return
     }
 
-    const { first_name, last_name, email, password } = this.state
+    const { username, email, password } = this.state
     const user = {
-      first_name,
-      last_name,
+      username,
       email,
       password
     }
 
-    axios.post('/users', user)
+    axios.post('/server/users/', user)
       .then(response => {
-        console.log(response)
-        if (response.status === 200) {
+        if (response.status === 201) {
+          console.log(response)
           browserHistory.push('/profile')
-          this.props.updateLoggedIn(true)
+          // this.props.updateLoggedIn(true)
         }
       })
         .catch(error => {
           console.log(error)
         })
     this.setState({
-      first_name: '',
-      last_name: '',
+      username: '',
       email: '',
       password: '',
       password_confirm: ''
@@ -78,24 +74,16 @@ class SignUpForm extends Component {
   }
 
   canBeSubmitted () {
-    const errors = validate(this.state.first_name, this.state.last_name, this.state.email, this.state.password, this.state.password_confirm)
+    const errors = validate(this.state.username, this.state.email, this.state.password, this.state.password_confirm)
     const isDisabled = Object.keys(errors).some(x => errors[x])
     return !isDisabled
   }
 
   getValidationState () {
-    if (this.state.first_name.length === 0) return
-    const first_nameLength = this.state.first_name.length
-    const isString = typeof this.state.first_name
-    if (first_nameLength >= 1) return 'success'
-    else if (isString !== String) return 'warning'
-    else if (this.state.first_name === undefined) return
-  }
-
-  getLastNameValidationState () {
-    if (this.state.last_name.length === 0) return
-    if (this.state.last_name.length >= 1) return 'success'
-    else if (this.state.first_name === undefined) return
+    if (this.state.username.length === 0) return
+    const usernameLength = this.state.username.length
+    if (usernameLength >= 1) return 'success'
+    else if (this.state.username === undefined) return
   }
 
   getPasswordValidationState () {
@@ -124,7 +112,7 @@ class SignUpForm extends Component {
   }
 
   render () {
-    const errors = validate(this.state.first_name, this.state.last_name, this.state.email, this.state.password, this.state.password_confirm)
+    const errors = validate(this.state.username, this.state.email, this.state.password, this.state.password_confirm)
     const isDisabled = Object.keys(errors).some(x => errors[x])
     return (
       <div className='container'>
@@ -132,22 +120,15 @@ class SignUpForm extends Component {
           <Col xs={12} sm={8} md={4} smOffset={2} mdOffset={4}>
             <div className='panel panel-default'>
               <div className='panel-heading'>
-                <h3 className='panel-title'>Sign up for Eat Genius!</h3>
+                <h3 className='panel-title'>Sign up for Cobalt!</h3>
               </div>
               <div className='panel-body'>
                 <Form onSubmit={this.handleSubmit} role='form'>
                   <Row>
                     <Col xs={6} md={6}>
                       <FormGroup validationState={this.getValidationState()} className='form-group'>
-                        <ControlLabel>First Name:</ControlLabel>
-                        <FormControl className={errors.first_name ? 'error form-control input-sm' : 'form-control input-sm'} type='text' placeholder='First Name' value={this.state.first_name} onChange={this.handleChange} name='first_name' />
-                        <FormControl.Feedback />
-                      </FormGroup>
-                    </Col>
-                    <Col xs={6} sm={6} md={6}>
-                      <FormGroup validationState={this.getLastNameValidationState()} className='form-group'>
-                        <ControlLabel>Last Name:</ControlLabel>
-                        <FormControl className={errors.last_name ? 'error form-control input-sm' : 'form-control input-sm'} type='text' placeholder='Last Name' value={this.state.last_name} onChange={this.handleChange} name='last_name' />
+                        <ControlLabel>Username:</ControlLabel>
+                        <FormControl className={errors.username ? 'error form-control input-sm' : 'form-control input-sm'} type='text' placeholder='Username' value={this.state.username} onChange={this.handleChange} name='username' />
                         <FormControl.Feedback />
                       </FormGroup>
                     </Col>

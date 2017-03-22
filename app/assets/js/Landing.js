@@ -10,6 +10,8 @@ class Landing extends Component {
       <div>
         We are a cool style transfer app.
         <Link to='signup'>Sign Up</Link>
+        <Link to='profile'>Profile</Link>
+        <Link to='login'>Login</Link>
       </div>
     )
   }

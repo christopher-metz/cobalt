@@ -1,55 +1,54 @@
-from rest_framework import status
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from server.models import User, Photo
+from server.models import Photo
 from server.serializers import UserSerializer, PhotoSerializer
-# from django.http import HttpResponse, JsonResponse
-# from django.views.decorators.csrf import csrf_exempt
-# from rest_framework.renderers import JSONRenderer
-# from rest_framework.parsers import JSONParser
-#
-# from rest_framework.decorators import api_view
-# from snippets.models import Snippet
-# from snippets.serializers import SnippetSerializer
+from server.permissions import IsOwner
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from rest_framework import generics, permissions
+from django.http import Http404
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
 
+class UserList(APIView):
+    serializer_class = UserSerializer
 
-@api_view(['GET', 'POST'])
-def user_list(request, format=None):
-    """
-    List all users, or create a new user.
-    """
-    if request.method == 'GET':
-        users = User.objects.all()
-        serializer = UserSerializer(users, many=True)
-        return Response(serializer.data)
-
-    elif request.method == 'POST':
-        data = JSONParser().parse(request)
-        serializer = UserSerializer(data=data)
+    def post(self, request, format=None):
+        serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            user = User.objects.create_user(username=serializer.data['username'], email=serializer.data['email'], password=serializer.data['password'])
+            if user is not None:
+                login(request, user)
+                return Response(1, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['GET', 'POST'])
-def photo_list(request, pk, format=None):
-    """
-    List all photos for a user, or create a new photo.
-    """
-    try:
-        user = User.objects.get(pk=pk)
-    except User.DoesNotExist:
-        return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
+class Session(APIView):
 
-    if request.method == 'GET':
-        photos = Photo.objects.filter(user_id=user.id)
-        serializer = PhotoSerializer(photos, many=True)
-        return Response(serializer.data)
+    def post(self, request, format=None):
+        username = request.data['username']
+        password = request.data['password']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return Response(True, status=status.HTTP_200_OK)
+        else:
+            return Response(False, status=status.HTTP_400_BAD_REQUEST)
 
-    elif request.method == 'POST':
-        data = JSONParser().parse(request)
-        serializer = PhotoSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def delete(self, request, format=None):
+        print('im here: ')
+        logout(request)
+
+class PhotoList(generics.ListCreateAPIView):
+    permission_classes = (permissions.IsAuthenticated, IsOwner,)
+    serializer_class = PhotoSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        return Photo.objects.filter(user=user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+# class PhotoDetail(generics.RetrieveUpdateDestroyAPIView):
+#     permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwner)
+#     queryset = Photo.objects.all()
+#     serializer_class = PhotoSerializer
