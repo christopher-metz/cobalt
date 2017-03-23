@@ -67,23 +67,34 @@ class Logout(APIView):
         logout(request)
         return Response(True, status=status.HTTP_200_OK)
 
-class PhotoList(APIView):
+# class PhotoList(APIView):
     # permission_classes = (permissions.IsAuthenticated, IsOwner,)
     # permission_classes = (permissions.IsAuthenticated, canPost,)
 
-    def get(self, request, format=None):
-        user = self.request.user
-        photos = Photo.objects.filter(user=user)
-        serializer = PhotoSerializer(photos, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def post(self, request, format=None):
-        res = styleTransfer(request.data['photo'], request.data['painting'])
-        res.save('%s/style_transfer/results/myOwnSave3.jpg' % (dir_path))
-        res.show()
-        return Response('did it work?', status=status.HTTP_201_CREATED)
+    # def get(self, request, format=None):
+    #     user = self.request.user
+    #     photos = Photo.objects.filter(user=user)
+    #     serializer = PhotoSerializer(photos, many=True)
+    #     return Response(serializer.data, status=status.HTTP_200_OK)
+    #
+    # def post(self, request, format=None):
+        # res = styleTransfer(request.data['photo'], request.data['painting'])
+        # res.save('%s/style_transfer/results/myOwnSave3.jpg' % (dir_path))
+        # res.show()
+        # return Response('did it work?', status=status.HTTP_201_CREATED)
         # serializer = PhotoSerializer(data=request.data)
         # if serializer.is_valid():
         #     serializer.save(user=self.request.user)
         #     return Response(serializer.data, status=status.HTTP_201_CREATED)
         # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class PhotoList(generics.ListCreateAPIView):
+    serializer_class = PhotoSerializer
+
+    def get_queryset(self):
+        queryset = Photo.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        print('im in photo list')
+        print(self.request.data)
+        serializer.save(user=self.request.user)

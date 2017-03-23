@@ -17,19 +17,29 @@ class Confirm extends Component {
     browserHistory.push(component)
   }
 
+// http --timeout=45 -a chrism:asdfasdf POST http://127.0.0.1:8000/server/photos/ photo=/style_transfer/inputs/Headshot.jpg painting=la_muse
+
   handleClick () {
+    // const photo = JSON.stringify(
+    //   {
+    //     photo: this.props.photo,
+    //     painting: this.props.paintingName
+    //   }
+    // )
     const photo = JSON.stringify(
       {
-        photo: this.props.photo,
-        painting: this.props.paintingName
+        photo_url: 'imThePhotoUrl'
       }
     )
-    const cookie = document.cookie.split('=')[1]
-    console.log(cookie)
-    const axiosSettings = {
-      headers: {'X-CSRF-Token': cookie}
-    }
-    axios.post('/server/photos/', photo, axiosSettings)
+    const csrfToken = document.cookie.split('=')[1]
+    console.log(csrfToken)
+    let axiosDefaults = require('axios/lib/defaults')
+    axiosDefaults.headers.common['X-CSRF-Token'] = csrfToken
+    // const axiosSettings = {
+    //   headers: {'X-CSRF-Token': cookie}
+    // }
+    // axios.post('/server/photos/', photo, axiosSettings)
+    axios.post('/server/photos/', photo)
       .then(response => {
         console.log(response)
         if (response.status === 201) {
