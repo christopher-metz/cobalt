@@ -28,7 +28,7 @@ class Confirm extends Component {
     // )
     const photo = JSON.stringify(
       {
-        photo_url: 'imThePhotoUrl'
+        photo_url: 'imThePhoto'
       }
     )
     const csrfToken = document.cookie.split('=')[1]
