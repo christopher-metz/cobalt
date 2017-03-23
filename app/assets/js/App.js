@@ -1,3 +1,4 @@
+import Confirm from './Confirm'
 import Landing from './Landing'
 import LoginForm from './Login'
 import Navbar from './Navbar'
@@ -22,6 +23,7 @@ class App extends Component {
             <IndexRoute component={Profile} />
             <Route path='/painting' component={Painting} />
             <Route path='/photo' component={Photo} />
+            <Route path='/confirm' component={Confirm} />
           </Route>
         </Route>
       </Router>

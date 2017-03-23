@@ -5,23 +5,33 @@ class ProfileHead extends Component {
     super(props)
 
     this.state = {
-      painting: ''
+      paintingName: '',
+      paintingLoc: '',
+      photo: ''
     }
 
     this.changePainting = this.changePainting.bind(this)
+    this.changePhoto = this.changePhoto.bind(this)
   }
 
-  changePainting (target) {
+  changePainting (painting, loc) {
     this.setState({
-      painting: target
+      paintingName: painting,
+      paintingLoc: loc
     })
-    console.log(target)
+  }
+
+  changePhoto (photo) {
+    console.log(this.state.painting)
+    this.setState({
+      photo: photo
+    })
   }
 
   render () {
     return (
       <div>
-        {React.cloneElement(this.props.children, { changePainting: this.changePainting })}
+        {React.cloneElement(this.props.children, { paintingName: this.state.paintingName, paintingLoc: this.state.paintingLoc, photo: this.state.photo, changePainting: this.changePainting, changePhoto: this.changePhoto })}
       </div>
     )
   }

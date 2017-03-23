@@ -1,6 +1,6 @@
 from server.models import Photo
 from server.serializers import UserSerializer, PhotoSerializer
-from server.permissions import IsOwner
+from server.permissions import IsOwner, canPost
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from rest_framework import generics, permissions
@@ -8,6 +8,28 @@ from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from subprocess import Popen, PIPE, STDOUT
+import scipy.misc, numpy as np, os, sys
+import json
+
+dir_path = os.path.dirname(os.path.realpath(__file__))
+
+def styleTransfer(photo, paintingName):
+    styleDict = {
+        'la_muse': '/style_transfer/checkpoints/la_muse.ckpt',
+        'rain_princess': '/style_transfer/checkpoints/rain_princess.ckpt',
+        'the_scream': '/style_transfer/checkpoints/scream.ckpt',
+        'udnie': '/style_transfer/checkpoints/udnie.ckpt',
+        'wave': '/style_transfer/checkpoints/wave.ckpt',
+        'shipwreck': '/style_transfer/checkpoints/wreck.ckpt'
+    }
+    cmd = "python %s/style_transfer/evaluate.py --checkpoint %s --in-path %s --out-path style_transfer/results/rainHeadshotTest6.jpg" %(dir_path, dir_path + styleDict[paintingName], dir_path + photo)
+    p = Popen(cmd, shell=True, stdin=PIPE, stdout=PIPE, stderr=PIPE, close_fds=True)
+    output = p.stdout.read()
+    err = p.stderr.read()
+    print ('stderr: ', err)
+    image = scipy.misc.toimage(np.asarray(json.loads(output.decode('utf-8'))))
+    return image
 
 class UserList(APIView):
     serializer_class = UserSerializer
@@ -45,18 +67,23 @@ class Logout(APIView):
         logout(request)
         return Response(True, status=status.HTTP_200_OK)
 
-class PhotoList(generics.ListCreateAPIView):
-    permission_classes = (permissions.IsAuthenticated, IsOwner,)
-    serializer_class = PhotoSerializer
+class PhotoList(APIView):
+    # permission_classes = (permissions.IsAuthenticated, IsOwner,)
+    # permission_classes = (permissions.IsAuthenticated, canPost,)
 
-    def get_queryset(self):
+    def get(self, request, format=None):
         user = self.request.user
-        return Photo.objects.filter(user=user)
+        photos = Photo.objects.filter(user=user)
+        serializer = PhotoSerializer(photos, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
-# class PhotoDetail(generics.RetrieveUpdateDestroyAPIView):
-#     permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwner)
-#     queryset = Photo.objects.all()
-#     serializer_class = PhotoSerializer
+    def post(self, request, format=None):
+        res = styleTransfer(request.data['photo'], request.data['painting'])
+        res.save('%s/style_transfer/results/myOwnSave3.jpg' % (dir_path))
+        res.show()
+        return Response('did it work?', status=status.HTTP_201_CREATED)
+        # serializer = PhotoSerializer(data=request.data)
+        # if serializer.is_valid():
+        #     serializer.save(user=self.request.user)
+        #     return Response(serializer.data, status=status.HTTP_201_CREATED)
+        # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -14,7 +14,7 @@ class Profile extends Component {
     this.logout = this.logout.bind(this)
   }
 
-  loadPhotosFromServer (id) {
+  loadPhotosFromServer () {
     axios.get(`/server/photos`)
       .then((res) => {
         this.setState({photos: res.data})
@@ -23,13 +23,12 @@ class Profile extends Component {
   }
 
   componentDidMount () {
-    this.loadPhotosFromServer(1)
+    this.loadPhotosFromServer()
   }
 
   logout () {
     axios.get('/server/logout')
       .then(response => {
-        console.log(response)
         if (response.status === 200) {
           browserHistory.push('/')
         }
@@ -45,7 +44,7 @@ class Profile extends Component {
         <div><h3>Your Photos!</h3><Link to='painting'>Create Art</Link></div>
         <button onClick={this.logout}>Logout</button>
         <ul>
-          {this.state.photos.length === 0 ? this.state.photos.map((element) => {
+          {this.state.photos.length !== 0 ? this.state.photos.map((element) => {
             return (
               <li key={element.id}><img src={element.photo_url} alt='picture' /></li>
             )
