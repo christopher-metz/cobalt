@@ -12,10 +12,8 @@ from subprocess import Popen, PIPE, STDOUT
 import scipy.misc, numpy as np, os, sys
 import json
 import urllib2 as urllib
-# import base64
 from cStringIO import StringIO
 from PIL import Image
-# import requests
 import cloudinary
 cloudinary.config(secure=False, api_key=174496614565755, api_secret='BNwqIbysSQlh7DdH7tVmnowvN3E', cloud_name='dz1gs7jrp')
 # CLOUDINARY_UPLOAD_PRESET = 'jkkoffrg'
@@ -39,16 +37,6 @@ def styleTransfer(photo, paintingName):
     print ('stderr: ', err)
     image = scipy.misc.toimage(np.asarray(json.loads(output.decode('utf-8'))))
     return image
-
-def upload(file):
-    img_file = urllib.urlopen(file)
-    im = StringIO(img_file.read())
-    resized_image = Image.open(im)
-    payload = {'upload_preset': CLOUDINARY_UPLOAD_PRESET}
-    r = requests.post(CLOUDINARY_UPLOAD_URL, params=payload, data = resized_image)
-    # cloudImage = cloudinary.uploader.upload(img)
-    print (r.text)
-    return cloudImage
 
 class UserList(APIView):
     serializer_class = UserSerializer
