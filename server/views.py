@@ -1,10 +1,9 @@
 from server.models import Photo
 from server.serializers import UserSerializer, PhotoSerializer
-# from server.permissions import IsOwner
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from rest_framework import generics, permissions
-from django.http import Http404
+# from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -16,8 +15,6 @@ from cStringIO import StringIO
 from PIL import Image
 import cloudinary
 cloudinary.config(secure=False, api_key=174496614565755, api_secret='BNwqIbysSQlh7DdH7tVmnowvN3E', cloud_name='dz1gs7jrp')
-# CLOUDINARY_UPLOAD_PRESET = 'jkkoffrg'
-# CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/dz1gs7jrp/upload'
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
@@ -30,7 +27,7 @@ def styleTransfer(photo, paintingName):
         'wave': '/style_transfer/checkpoints/wave.ckpt',
         'shipwreck': '/style_transfer/checkpoints/wreck.ckpt'
     }
-    cmd = "python %s/style_transfer/evaluate.py --checkpoint %s --in-path %s --out-path style_transfer/results/rainHeadshotTest6.jpg" %(dir_path, dir_path + styleDict[paintingName], dir_path + photo)
+    cmd = "python %s/style_transfer/evaluate.py --checkpoint %s --in-path %s --out-path style_transfer/results/temp.jpg" %(dir_path, dir_path + styleDict[paintingName], dir_path + photo)
     p = Popen(cmd, shell=True, stdin=PIPE, stdout=PIPE, stderr=PIPE, close_fds=True)
     output = p.stdout.read()
     err = p.stderr.read()
@@ -75,7 +72,6 @@ class Logout(APIView):
         return Response(True, status=status.HTTP_200_OK)
 
 class PhotoList(APIView):
-    # permission_classes = (permissions.IsAuthenticated, IsOwner,)
     permission_classes = (permissions.IsAuthenticated,)
 
     def get(self, request, format=None):
@@ -89,8 +85,8 @@ class PhotoList(APIView):
         img_file = urllib.urlopen(url)
         im = StringIO(img_file.read())
         resized_image = Image.open(im)
-        resized_image.save(dir_path + '/temp.jpg')
-        res = styleTransfer('/temp.jpg', request.data['painting'])
+        resized_image.save('%s/style_transfer/inputs/temp.jpg' % (dir_path))
+        res = styleTransfer('/style_transfer/inputs/temp.jpg', request.data['painting'])
         res.save('%s/style_transfer/results/temp.jpg' % (dir_path))
         cloudData = cloudinary.uploader.upload('%s/style_transfer/results/temp.jpg' % (dir_path))
         cloudinary.uploader.destroy(request.data['public_id'])
