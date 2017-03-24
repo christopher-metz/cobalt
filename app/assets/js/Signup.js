@@ -57,9 +57,7 @@ class SignUpForm extends Component {
     axios.post('/server/users/', user)
       .then(response => {
         if (response.status === 201) {
-          console.log(response)
           browserHistory.push('/profile')
-          // this.props.updateLoggedIn(true)
         }
       })
         .catch(error => {

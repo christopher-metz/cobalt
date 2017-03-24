@@ -21,8 +21,11 @@
   },
   "dependencies": {
     "axios": "^0.15.3",
+    "cloudinary": "^1.8.0",
+    "file-dialog": "0.0.4",
     "react-bootstrap": "^0.30.8",
     "react-dropzone": "^3.12.2",
-    "react-router": "^3.0.2"
+    "react-router": "^3.0.2",
+    "superagent": "^3.5.2"
   }
 }

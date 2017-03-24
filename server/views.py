@@ -1,6 +1,6 @@
 from server.models import Photo
 from server.serializers import UserSerializer, PhotoSerializer
-from server.permissions import IsOwner, canPost
+# from server.permissions import IsOwner
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from rest_framework import generics, permissions
@@ -11,6 +11,15 @@ from rest_framework import status
 from subprocess import Popen, PIPE, STDOUT
 import scipy.misc, numpy as np, os, sys
 import json
+import urllib2 as urllib
+# import base64
+from cStringIO import StringIO
+from PIL import Image
+# import requests
+import cloudinary
+cloudinary.config(secure=False, api_key=174496614565755, api_secret='BNwqIbysSQlh7DdH7tVmnowvN3E', cloud_name='dz1gs7jrp')
+# CLOUDINARY_UPLOAD_PRESET = 'jkkoffrg'
+# CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/dz1gs7jrp/upload'
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
@@ -30,6 +39,16 @@ def styleTransfer(photo, paintingName):
     print ('stderr: ', err)
     image = scipy.misc.toimage(np.asarray(json.loads(output.decode('utf-8'))))
     return image
+
+def upload(file):
+    img_file = urllib.urlopen(file)
+    im = StringIO(img_file.read())
+    resized_image = Image.open(im)
+    payload = {'upload_preset': CLOUDINARY_UPLOAD_PRESET}
+    r = requests.post(CLOUDINARY_UPLOAD_URL, params=payload, data = resized_image)
+    # cloudImage = cloudinary.uploader.upload(img)
+    print (r.text)
+    return cloudImage
 
 class UserList(APIView):
     serializer_class = UserSerializer
@@ -67,34 +86,29 @@ class Logout(APIView):
         logout(request)
         return Response(True, status=status.HTTP_200_OK)
 
-# class PhotoList(APIView):
+class PhotoList(APIView):
     # permission_classes = (permissions.IsAuthenticated, IsOwner,)
-    # permission_classes = (permissions.IsAuthenticated, canPost,)
+    permission_classes = (permissions.IsAuthenticated,)
 
-    # def get(self, request, format=None):
-    #     user = self.request.user
-    #     photos = Photo.objects.filter(user=user)
-    #     serializer = PhotoSerializer(photos, many=True)
-    #     return Response(serializer.data, status=status.HTTP_200_OK)
-    #
-    # def post(self, request, format=None):
-        # res = styleTransfer(request.data['photo'], request.data['painting'])
-        # res.save('%s/style_transfer/results/myOwnSave3.jpg' % (dir_path))
-        # res.show()
-        # return Response('did it work?', status=status.HTTP_201_CREATED)
-        # serializer = PhotoSerializer(data=request.data)
-        # if serializer.is_valid():
-        #     serializer.save(user=self.request.user)
-        #     return Response(serializer.data, status=status.HTTP_201_CREATED)
-        # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def get(self, request, format=None):
+        user = self.request.user
+        photos = Photo.objects.filter(user=user)
+        serializer = PhotoSerializer(photos, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
-class PhotoList(generics.ListCreateAPIView):
-    serializer_class = PhotoSerializer
-
-    def get_queryset(self):
-        queryset = Photo.objects.filter(user=self.request.user)
-
-    def perform_create(self, serializer):
-        print('im in photo list')
-        print(self.request.data)
-        serializer.save(user=self.request.user)
+    def post(self, request, format=None):
+        url = request.data['photo']
+        img_file = urllib.urlopen(url)
+        im = StringIO(img_file.read())
+        resized_image = Image.open(im)
+        resized_image.save(dir_path + '/temp.jpg')
+        res = styleTransfer('/temp.jpg', request.data['painting'])
+        res.save('%s/style_transfer/results/temp.jpg' % (dir_path))
+        cloudData = cloudinary.uploader.upload('%s/style_transfer/results/temp.jpg' % (dir_path))
+        cloudinary.uploader.destroy(request.data['public_id'])
+        data = {'photo_url': cloudData['secure_url']}
+        serializer = PhotoSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save(user=self.request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

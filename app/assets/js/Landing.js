@@ -10,7 +10,6 @@ class Landing extends Component {
   componentWillMount () {
     axios.get('/server/session')
       .then(response => {
-        console.log(response)
         if (response.status === 200) {
           browserHistory.push('profile')
         }

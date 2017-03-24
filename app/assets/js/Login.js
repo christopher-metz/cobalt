@@ -48,12 +48,10 @@ class LoginForm extends Component {
       .then(response => {
         if (response.status === 200) {
           browserHistory.push('/profile')
-          // this.props.updateLoggedIn(true)
         }
       })
       .catch(error => {
         console.log(error)
-        // alert('Unknown Email Or Password')
       })
   }
 

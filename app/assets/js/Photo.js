@@ -14,7 +14,8 @@ class Photo extends Component {
   }
 
   onDrop (file) {
-    this.props.changePhoto(file[0].preview)
+    console.log(file[0])
+    this.props.changePhoto(file[0])
     this.setState({
       preview: file[0].preview
     })

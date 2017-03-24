@@ -7,7 +7,7 @@ class ProfileHead extends Component {
     this.state = {
       paintingName: '',
       paintingLoc: '',
-      photo: ''
+      photo: {}
     }
 
     this.changePainting = this.changePainting.bind(this)
@@ -22,7 +22,6 @@ class ProfileHead extends Component {
   }
 
   changePhoto (photo) {
-    console.log(this.state.painting)
     this.setState({
       photo: photo
     })
