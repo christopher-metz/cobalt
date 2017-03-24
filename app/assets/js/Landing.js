@@ -1,9 +1,6 @@
 import axios from 'axios'
 import React, { Component } from 'react'
 import { browserHistory, Link } from 'react-router'
-// import './landing.css'
-// import JumbotronComponent from '../Jumbotron'
-// import { Row, Col, Button } from 'react-bootstrap'
 
 class Landing extends Component {
 
@@ -13,9 +10,6 @@ class Landing extends Component {
         if (response.status === 200) {
           browserHistory.push('profile')
         }
-      })
-      .catch(error => {
-        console.log(error)
       })
   }
 
