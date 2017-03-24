@@ -3,7 +3,6 @@ from server.models import Photo
 from django.contrib.auth.models import User
 
 class UserSerializer(serializers.ModelSerializer):
-    # photos = serializers.PrimaryKeyRelatedField(many=True, queryset=Photo.objects.all())
     class Meta:
         model = User
         fields = ('id', 'username', 'email', 'password')

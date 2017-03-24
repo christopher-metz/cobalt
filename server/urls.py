@@ -8,6 +8,5 @@ urlpatterns = [
     url(r'^session/$', views.Session.as_view(), name='session'),
     url(r'^logout/$', views.Logout.as_view(), name='logout'),
     url(r'^photos/$', views.PhotoList.as_view(), name='photos_list'),
-    # url(r'^photo_list/(?P<pk>[0-9]+)/$', views.PhotoList.as_view(), name='photo_list'),
 ]
 urlpatterns = format_suffix_patterns(urlpatterns)

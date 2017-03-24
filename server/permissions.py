@@ -15,9 +15,3 @@ class IsOwner(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         # Permissions are only allowed to the owner of the photo.
         return obj.user == request.user
-
-# class canPost(permissions.BasePermission):
-#
-#     def has_object_permission(self, request, view):
-#         user_id = getattr(request.user, 'id')
-#         return True
