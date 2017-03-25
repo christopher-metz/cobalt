@@ -3,7 +3,6 @@ from server.serializers import UserSerializer, PhotoSerializer
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from rest_framework import generics, permissions
-# from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -13,7 +12,6 @@ import json
 import urllib2 as urllib
 from cStringIO import StringIO
 from PIL import Image
-# from resizeimage import resizeimage
 import cloudinary
 cloudinary.config(secure=False, api_key=174496614565755, api_secret='BNwqIbysSQlh7DdH7tVmnowvN3E', cloud_name='dz1gs7jrp')
 
@@ -86,7 +84,6 @@ class PhotoList(APIView):
         img_file = urllib.urlopen(url)
         im = StringIO(img_file.read())
         resized_image = Image.open(im)
-        # resized_image = resizeimage.resize_contain(resized_image, [900, 900])
         maxsize = (1028, 1028)
         resized_image.thumbnail(maxsize, Image.ANTIALIAS)
         resized_image.save('%s/style_transfer/inputs/temp.jpg' % (dir_path))

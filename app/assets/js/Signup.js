@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { Component } from 'react'
 import { browserHistory, Link } from 'react-router'
-import { Col, Row, FormGroup, FormControl, ControlLabel, Form, Button, validationState } from 'react-bootstrap'
+import { Col, Row, FormGroup, FormControl, ControlLabel, Form, Button } from 'react-bootstrap'
 
 function validate (username, email, password, password_confirm) {
   // True means invalid

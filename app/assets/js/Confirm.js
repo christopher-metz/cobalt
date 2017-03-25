@@ -1,16 +1,10 @@
 import axios from 'axios'
-// import cloudinary from 'cloudinary'
 import request from 'superagent'
 import React, { Component } from 'react'
 import { browserHistory } from 'react-router'
 
 const CLOUDINARY_UPLOAD_PRESET = 'jkkoffrg'
 const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/dz1gs7jrp/upload'
-// cloudinary.config({
-//   cloud_name: 'dz1gs7jrp',
-//   api_key: '174496614565755',
-//   api_secret: 'BNwqIbysSQlh7DdH7tVmnowvN3E'
-// })
 
 class Confirm extends Component {
   constructor (props) {
@@ -30,10 +24,6 @@ class Confirm extends Component {
   }
 
   handleImageUpload () {
-    // const photo = this.props.photo
-    // cloudinary.uploader.upload(photo,
-    //   {width: 900, height: 900, crop: 'fill'},
-    //   (err, response) => {
     let upload = request.post(CLOUDINARY_UPLOAD_URL)
                         .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
                         .field('file', this.props.photo)
