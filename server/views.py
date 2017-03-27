@@ -37,6 +37,13 @@ def styleTransfer(photo, paintingName):
 class UserList(APIView):
     serializer_class = UserSerializer
 
+    def get(self, request, format=None):
+        user = self.request.user
+        users = User.objects.filter(username=user)
+        serializer = UserSerializer(users, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
     def post(self, request, format=None):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { browserHistory, Link } from 'react-router'
+import { Image, Row, Col, Button } from 'react-bootstrap'
+import { browserHistory } from 'react-router'
 const axios = require('axios')
 
 class Profile extends Component {
@@ -7,7 +8,8 @@ class Profile extends Component {
     super(props)
 
     this.state = {
-      photos: []
+      photos: [],
+      username: ''
     }
 
     this.loadPhotosFromServer = this.loadPhotosFromServer.bind(this)
@@ -22,34 +24,41 @@ class Profile extends Component {
       })
   }
 
-  componentDidMount () {
-    this.loadPhotosFromServer()
+  loadUserFromServer () {
+    axios.get(`/server/users`)
+      .then((res) => {
+        this.setState({username: res.data[0].username})
+        return
+      })
   }
 
-  logout () {
-    axios.get('/server/logout')
-      .then(response => {
-        if (response.status === 200) {
-          browserHistory.push('/')
-        }
-      })
-      .catch(error => {
-        console.log(error)
-      })
+  componentDidMount () {
+    this.loadPhotosFromServer()
+    this.loadUserFromServer()
   }
 
   render () {
     return (
       <div>
-        <div><h3>Your Photos!</h3><Link to='painting'>Create Art</Link></div>
-        <button onClick={this.logout}>Logout</button>
-        <ul>
+        <Row>
+          <Col xs={5} sm={6} smOffset={2} xsOffset={1}>
+            <h3>{this.state.username}</h3>
+          </Col>
+          <Col xs={5} sm={3}>
+            <Button bsSize='small' block onClick={() => { browserHistory.push('painting') }}>Create Art</Button>
+          </Col>
+        </Row>
+        <div>
           {this.state.photos.length !== 0 ? this.state.photos.map((element) => {
             return (
-              <li key={element.id}><img src={element.photo_url} alt='picture' /></li>
+              <Row key={element.id} style={{margin: 2}}>
+                <Col xs={10} sm={6} smOffset={3} xsOffset={1}>
+                  <Image src={element.photo_url} alt='picture' responsive rounded />
+                </Col>
+              </Row>
             )
-          }) : <li>You havent created any art yet!</li>}
-        </ul>
+          }) : <div>You havent created any art yet!</div>}
+        </div>
       </div>
     )
   }
