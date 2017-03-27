@@ -49,7 +49,7 @@ class Nav extends Component {
 
   render () {
     return (
-      <div>
+      <div style={{backgrounColor: 'blue'}}>
         <Navbar inverse>
           <Navbar.Header>
             <Navbar.Brand>
@@ -60,7 +60,9 @@ class Nav extends Component {
             {this.state.loggedIn ? 'Logout' : 'Login'}
           </Navbar.Link>
         </Navbar>
-        {React.cloneElement(this.props.children, {loggedIn: this.state.loggedIn, loginFalse: this.loginFalse, loginTrue: this.loginTrue})}
+        <div>
+          {React.cloneElement(this.props.children, {loggedIn: this.state.loggedIn, loginFalse: this.loginFalse, loginTrue: this.loginTrue})}
+        </div>
         <Navbar inverse>
           <div>@cobaltart2017</div>
         </Navbar>

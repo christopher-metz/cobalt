@@ -14,6 +14,7 @@ class Profile extends Component {
 
     this.loadPhotosFromServer = this.loadPhotosFromServer.bind(this)
     this.loadUserFromServer = this.loadUserFromServer.bind(this)
+    this.deletePhoto = this.deletePhoto.bind(this)
   }
 
   loadPhotosFromServer () {
@@ -37,6 +38,16 @@ class Profile extends Component {
     this.loadUserFromServer()
   }
 
+  deletePhoto () {
+    axios.delete('/server/photos')
+      .then((res) => {
+        console.log('success', res)
+      })
+      .catch((err) => {
+        console.log('failure', err)
+      })
+  }
+
   render () {
     return (
       <div>
@@ -52,8 +63,11 @@ class Profile extends Component {
           {this.state.photos.length !== 0 ? this.state.photos.map((element) => {
             return (
               <Row key={element.id} style={{margin: 2}}>
-                <Col xs={10} sm={6} smOffset={3} xsOffset={1}>
+                <Col xs={9} sm={5} smOffset={3} xsOffset={1}>
                   <Image src={element.photo_url} alt='picture' responsive rounded />
+                </Col>
+                <Col xs={1}>
+                  <Button bsSize='small' onClick={this.deletePhoto}>Delete</Button>
                 </Col>
               </Row>
             )
