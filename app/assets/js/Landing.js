@@ -8,20 +8,21 @@ class Landing extends Component {
     super(props)
   }
 
-  // componentWillMount () {
-  //   axios.get('/server/session')
-  //     .then(response => {
-  //       if (response.status === 200) {
-  //         browserHistory.push('profile')
-  //       }
-  //     })
-  // }
-
   componentWillMount () {
-    if (this.props.loggedIn) {
-      browserHistory.push('profile')
-    }
+    axios.get('/server/session')
+      .then(response => {
+        if (response.status === 200) {
+          this.props.loginTrue()
+          browserHistory.push('profile')
+        }
+      })
   }
+
+  // componentWillMount () {
+  //   if (this.props.loggedIn) {
+  //     browserHistory.push('profile')
+  //   }
+  // }
 
   render () {
     return (
@@ -39,7 +40,7 @@ class Landing extends Component {
           </Col>
         </Row>
         <div className='well' style={{maxWidth: 400, margin: '0 auto 10px'}}>
-          <Button bsSize='large' block onClick={() => { browserHistory.push('login') }}>Start Creating Art</Button>
+          <Button bsSize='large' block onClick={() => { browserHistory.push('signup') }}>Start Creating Art</Button>
         </div>
         <Row>
           <Col xs={10} sm={6} smOffset={3} xsOffset={1}>

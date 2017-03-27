@@ -1,7 +1,7 @@
+import axios from 'axios'
 import React, { Component } from 'react'
 import { Image, Row, Col, Button } from 'react-bootstrap'
 import { browserHistory } from 'react-router'
-const axios = require('axios')
 
 class Profile extends Component {
   constructor (props) {
@@ -13,7 +13,7 @@ class Profile extends Component {
     }
 
     this.loadPhotosFromServer = this.loadPhotosFromServer.bind(this)
-    this.logout = this.logout.bind(this)
+    this.loadUserFromServer = this.loadUserFromServer.bind(this)
   }
 
   loadPhotosFromServer () {

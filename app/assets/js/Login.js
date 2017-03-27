@@ -47,6 +47,7 @@ class LoginForm extends Component {
     axios.post('/server/session/', user)
       .then(response => {
         if (response.status === 200) {
+          this.props.loginTrue()
           browserHistory.push('/profile')
         }
       })

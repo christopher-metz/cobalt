@@ -13,23 +13,25 @@ class Nav extends Component {
 
     this.logout = this.logout.bind(this)
     this.handleClick = this.handleClick.bind(this)
-    this.updateLogin = this.updateLogin.bind(this)
+    this.loginFalse = this.loginFalse.bind(this)
+    this.loginTrue = this.loginTrue.bind(this)
   }
 
-  updateLogin () {
-    if (this.state.loggedIn) {
-      this.setState({loggedIn: false})
-    } else {
-      this.setState({loggedIn: true})
-    }
+  loginFalse () {
+    this.setState({loggedIn: false})
+  }
+
+  loginTrue () {
+    this.setState({loggedIn: true})
   }
 
   logout () {
+    console.log('im here')
     axios.get('/server/logout')
       .then(response => {
         if (response.status === 200) {
-          this.updateLogin()
-          browserHistory.push('landing')
+          this.loginFalse()
+          browserHistory.push('/')
         }
       })
       .catch(error => {
@@ -55,12 +57,10 @@ class Nav extends Component {
             </Navbar.Brand>
           </Navbar.Header>
           <Navbar.Link pullRight onClick={this.handleClick}>
-            {/* <NavItem eventKey={1} > */}
             {this.state.loggedIn ? 'Logout' : 'Login'}
-            {/* </NavItem> */}
           </Navbar.Link>
         </Navbar>
-        {React.cloneElement(this.props.children, {loggedIn: this.state.loggedIn})}
+        {React.cloneElement(this.props.children, {loggedIn: this.state.loggedIn, loginFalse: this.loginFalse, loginTrue: this.loginTrue})}
         <Navbar inverse>
           <div>@cobaltart2017</div>
         </Navbar>
