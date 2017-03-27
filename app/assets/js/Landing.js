@@ -8,21 +8,17 @@ class Landing extends Component {
     super(props)
   }
 
-  componentWillMount () {
-    axios.get('/server/session')
-      .then(response => {
-        if (response.status === 200) {
-          this.props.loginTrue()
-          browserHistory.push('profile')
-        }
-      })
+  componentDidUpdate () {
+    if (this.props.loggedIn) {
+      browserHistory.push('profile')
+    }
   }
 
-  // componentWillMount () {
-  //   if (this.props.loggedIn) {
-  //     browserHistory.push('profile')
-  //   }
-  // }
+  componentWillMount () {
+    if (this.props.loggedIn) {
+      browserHistory.push('profile')
+    }
+  }
 
   render () {
     return (

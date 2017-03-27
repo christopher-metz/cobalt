@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { Component } from 'react'
-import { Navbar, NavItem } from 'react-bootstrap'
+import { Navbar } from 'react-bootstrap'
 import { browserHistory, Link } from 'react-router'
 
 class Nav extends Component {
@@ -26,7 +26,6 @@ class Nav extends Component {
   }
 
   logout () {
-    console.log('im here')
     axios.get('/server/logout')
       .then(response => {
         if (response.status === 200) {
@@ -45,6 +44,18 @@ class Nav extends Component {
     } else {
       browserHistory.push('login')
     }
+  }
+
+  componentWillMount () {
+    axios.get('/server/session')
+      .then(response => {
+        if (response.status === 200) {
+          this.loginTrue()
+        }
+      })
+      .catch(() => {
+        this.loginFalse()
+      })
   }
 
   render () {

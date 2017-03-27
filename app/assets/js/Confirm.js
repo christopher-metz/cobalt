@@ -62,7 +62,6 @@ class Confirm extends Component {
       }
 
       if (response.body.secure_url !== '') {
-        console.log('its uploaded')
         this.setState({
           uploadedFileCloudinaryUrl: response.body.secure_url
         })

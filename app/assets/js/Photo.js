@@ -1,5 +1,6 @@
 import Dropzone from 'react-dropzone'
 import React, { Component } from 'react'
+import { Button, Image, Overlay, Row, Col } from 'react-bootstrap'
 import { browserHistory } from 'react-router'
 
 class Photo extends Component {
@@ -24,10 +25,36 @@ class Photo extends Component {
   render () {
     return (
       <div>
-        <Dropzone multiple={false} onDrop={this.onDrop}>
-          <div>Drop a photo here</div>
-        </Dropzone>
-        <img src={this.state.preview} alt='Your Photo' />
+        <Row>
+          <Col xs={10} xsOffset={1} sm={5} smOffset={1}>
+            <Row>
+              <Col xs={6}>
+                <h5>The Painting</h5>
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={12}>
+                <Image src={this.props.paintingLoc} alt='Your Painting' responsive rounded />
+              </Col>
+            </Row>
+          </Col>
+          <Col xs={10} xsOffset={1} sm={5}>
+            <Row>
+              <Col xs={6}>
+                <h5>Pick A Photo</h5>
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={12}>
+                {this.state.preview.length === 0
+                    ? <Dropzone multiple={false} onDrop={this.onDrop}>
+                      <div>Drop a photo here</div>
+                    </Dropzone>
+                    : <Image src={this.state.preview} alt='Your Photo' responsive rounded />}
+              </Col>
+            </Row>
+          </Col>
+        </Row>
       </div>
     )
   }

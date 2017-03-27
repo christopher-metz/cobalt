@@ -20,9 +20,5 @@ urlpatterns = [
     url(r'^server/', include('server.urls')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^admin/', admin.site.urls),
-    url(r'^$', include('app.urls')),
+    url(r'^', include('app.urls')),
 ]
-
-# urlpatterns += [
-#     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-# ]
