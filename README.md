@@ -4,12 +4,12 @@
 
 Art AI or Cobalt - A picture stylizing tool. We turn your ordinary photos into extraordinary works of art. We can stylize any photo into the style of a famous piece of artwork. Pick form the list of:
 
-La Muse - Pablo Picasso
-Rain Princess - Leonid Afremov
-The Scream - Edvard Munch
-The Shipwreck of the Minotaur - Joseph Turner
-Udnie - Francis Picabia
-The Great Wave off Kanagawa - Katsushika Hokusai
+- La Muse: Pablo Picasso
+- Rain Princess: Leonid Afremov
+- The Scream: Edvard Munch
+- The Shipwreck of the Minotaur: Joseph Turner
+- Udnie: Francis Picabia
+- The Great Wave off Kanagawa: Katsushika Hokusai
 
 We can style movies as well.
 
