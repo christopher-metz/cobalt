@@ -38,10 +38,21 @@ class Profile extends Component {
     this.loadUserFromServer()
   }
 
-  deletePhoto () {
-    axios.delete('/server/photos')
-      .then((res) => {
-        console.log('success', res)
+  deletePhoto (element) {
+    const newPhotos = this.state.photos
+    const photo = newPhotos.splice(newPhotos.indexOf(element), 1)
+    const id = element.id
+    const csrfToken = document.cookie.split('=')[1]
+    const axiosSettings = {
+      headers: {
+        'X-CSRFToken': csrfToken
+      }
+    }
+    axios.delete(`/server/photo/${id}`, axiosSettings)
+      .then(() => {
+        this.setState({
+          photos: newPhotos
+        })
       })
       .catch((err) => {
         console.log('failure', err)
@@ -67,7 +78,7 @@ class Profile extends Component {
                   <Image src={element.photo_url} alt='picture' responsive rounded />
                 </Col>
                 <Col xs={1}>
-                  <Button bsSize='small' onClick={this.deletePhoto}>Delete</Button>
+                  <Button bsSize='small' onClick={() => this.deletePhoto(element)}>Delete</Button>
                 </Col>
               </Row>
             )
