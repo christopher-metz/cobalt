@@ -20,7 +20,11 @@ class Profile extends Component {
   loadPhotosFromServer () {
     axios.get(`/server/photos`)
       .then((res) => {
-        this.setState({photos: res.data})
+        const photos = res.data
+        photos.sort((a, b) => {
+          return b.id - a.id
+        })
+        this.setState({photos: photos})
         return
       })
   }
