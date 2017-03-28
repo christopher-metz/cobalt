@@ -31,7 +31,7 @@ class Painting extends Component {
             </div>
           </Col>
           <Col xs={10} sm={2} xsOffset={1}>
-            <div onClick={() => this.handleClick('the_scream', '/static/img/The_scream.jpg')}>
+            <div onClick={() => this.handleClick('the_scream', '/static/img/the_scream.jpg')}>
               The Scream by Edvard Munch
               <Image src='/static/img/The_scream.jpg' alt='The Scream' responsive rounded />
             </div>
