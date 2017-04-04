@@ -35,6 +35,7 @@ Anna opens the app and picks her favorite painting The Rain Princess, and upload
 - Python
 - Django Rest Framework
 - PostgreSQL
+- AWS EC2
 - Nginx
 - Linux
 - NPM
