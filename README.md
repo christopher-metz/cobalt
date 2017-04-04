@@ -30,7 +30,7 @@ Anna has some normal photos on her phone, and while she is sitting on the couch 
 
 Anna opens the app and picks her favorite painting The Rain Princess, and uploads a photo into the app. A few seconds later her photo now looks as if it were painted in the style of The Rain Princess. She saves it to her phone, and then posts it on Instagram. All of her friends are very impressed and she gets more likes on that photo then any other post.
 
-### Tech Stack
+## Tech Stack
 - React
 - Python
 - Django Rest Framework
@@ -46,8 +46,6 @@ Anna opens the app and picks her favorite painting The Rain Princess, and upload
 ### Other
 - Cloudinary API
 - Tensorflow
-
-### Demos
 
 ### Video Sample
 
