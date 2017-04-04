@@ -30,9 +30,9 @@ Anna has some normal photos on her phone, and while she is sitting on the couch 
 
 Anna opens the app and picks her favorite painting The Rain Princess, and uploads a photo into the app. A few seconds later her photo now looks as if it were painted in the style of The Rain Princess. She saves it to her phone, and then posts it on Instagram. All of her friends are very impressed and she gets more likes on that photo then any other post.
 
-### Tech Stack
-- React
-- Python
+### Tech Stack                  ###Other
+- React                         - Cloudinary API
+- Python                        - Tensorflow
 - Django Rest Framework
 - PostgreSQL
 - Nginx
@@ -47,7 +47,17 @@ Anna opens the app and picks her favorite painting The Rain Princess, and upload
 
 ### Video Sample
 
-#### Watch this brief two minute walk-though of our application.
+#### Watch this brief two minute walk-though of the application.
+
+##Future Plans
+- Have video send the user an email or text notification when their video has finished processing.
+- Utilize Amazon GPUs to speed up the process of the style transfer.
+- Integration with Facebook and Instagram
+- Allow users to train their own networks. This will take a long time so the user will need to be notified when it's done.
 
 ### Contributors
 - Christopher Metz (https://github.com/christopher-metz)
+
+####Citations
+- https://github.com/lengstrom/fast-style-transfer
+- Copyright (c) 2016 Logan Engstrom.
