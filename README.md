@@ -43,7 +43,7 @@ Anna opens the app and picks her favorite painting The Rain Princess, and upload
 - HTML
 - React Bootstrap
 
-###Other
+### Other
 - Cloudinary API
 - Tensorflow
 
