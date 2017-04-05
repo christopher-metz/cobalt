@@ -26,7 +26,7 @@ class Photo extends Component {
     return (
       <div>
         <Row>
-          <Col xs={10} xsOffset={1} sm={5} smOffset={1}>
+          <Col xs={10} xsOffset={1} sm={5} smOffset={0}>
             <Row>
               <Col xs={6}>
                 <h5>The Painting</h5>
@@ -48,7 +48,7 @@ class Photo extends Component {
               <Col xs={12}>
                 {this.state.preview.length === 0
                     ? <Dropzone multiple={false} onDrop={this.onDrop}>
-                      <div>Drop a photo here</div>
+                      <div>Cklick here to add a photo!</div>
                     </Dropzone>
                     : <Image src={this.state.preview} alt='Your Photo' responsive rounded />}
               </Col>

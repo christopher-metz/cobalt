@@ -67,27 +67,32 @@ class Profile extends Component {
     return (
       <div>
         <Row>
-          <Col xs={5} sm={6} smOffset={2} xsOffset={1}>
-            <h3>{this.state.username}</h3>
-          </Col>
-          <Col xs={5} sm={3}>
-            <Button bsSize='small' block onClick={() => { browserHistory.push('painting') }}>Create Art</Button>
+          <Col xs={12} sm={4} smOffset={4}>
+            <h2>{this.state.username}'s Photos!</h2>
           </Col>
         </Row>
-        <div>
-          {this.state.photos.length !== 0 ? this.state.photos.map((element) => {
-            return (
-              <Row key={element.id} style={{margin: 2}}>
-                <Col xs={9} sm={5} smOffset={3} xsOffset={1}>
-                  <Image src={element.photo_url} alt='picture' responsive rounded />
-                </Col>
-                <Col xs={1}>
-                  <Button bsSize='small' onClick={() => this.deletePhoto(element)}>Delete</Button>
-                </Col>
-              </Row>
-            )
-          }) : <div>You havent created any art yet!</div>}
-        </div>
+        <Row>
+          <Row>
+            <Col xs={9} sm={5} smOffset={3} xsOffset={1}>
+              <Button bsStyle='primary' bsSize='small' block onClick={() => { browserHistory.push('painting') }}>Create Art</Button>
+            </Col>
+          </Row>
+          {this.state.photos.length !== 0 ? <div>
+            {this.state.photos.map((element) => {
+              return (
+                <Row key={element.id} style={{margin: 2}}>
+                  <Col xs={9} sm={5} smOffset={3} xsOffset={1}>
+                    <Image src={element.photo_url} alt='picture' responsive rounded />
+                  </Col>
+                  <Col xs={1}>
+                    <Button bsStyle='warning' bsSize='small' onClick={() => this.deletePhoto(element)}>Delete</Button>
+                  </Col>
+                </Row>
+              )
+            })} </div> :
+            <Col xs={4} xsOffset={4}>You havent created any art yet!</Col>
+          }
+        </Row>
       </div>
     )
   }

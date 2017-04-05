@@ -24,8 +24,15 @@ const CustomPopover = React.createClass({
               padding: 10
             }}
           >
-            Loading...
-            <img src={'/static/img/ajax-loader.gif'} />
+            <Row>
+              <Col xsHidden sm={2} />
+              <Col xs={4}>
+                Loading...
+              </Col>
+              <Col xs={4}>
+                <img src={'/static/img/ajax-loader.gif'} />
+              </Col>
+            </Row>
           </div>
         </Col>
       </Row>
@@ -101,7 +108,7 @@ class Confirm extends Component {
     return (
       <div>
         <Row>
-          <Col xs={10} xsOffset={1} sm={5} smOffset={1}>
+          <Col xs={10} xsOffset={1} sm={5} smOffset={0}>
             <Row>
               <Col xs={6}>
                 <h5>The Painting</h5>
@@ -143,7 +150,7 @@ class Confirm extends Component {
             >
               <CustomPopover />
             </Overlay>
-            <Button onClick={this.handleImageUpload}>Create Art</Button>
+            <Button bsStyle='primary' bsSize='large' block onClick={this.handleImageUpload}>Create Art</Button>
           </Col>
         </Row>
       </div>

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { Component } from 'react'
-import { Navbar } from 'react-bootstrap'
+import { Navbar, Row, Col } from 'react-bootstrap'
 import { browserHistory, Link } from 'react-router'
 
 class Nav extends Component {
@@ -60,7 +60,7 @@ class Nav extends Component {
 
   render () {
     return (
-      <div style={{backgrounColor: 'blue'}}>
+      <div style={{backgroundColor: 'cobalt'}}>
         <Navbar inverse>
           <Navbar.Header>
             <Navbar.Brand>
@@ -71,12 +71,16 @@ class Nav extends Component {
             {this.state.loggedIn ? 'Logout' : 'Login'}
           </Navbar.Link>
         </Navbar>
-        <div>
-          {React.cloneElement(this.props.children, {loggedIn: this.state.loggedIn, loginFalse: this.loginFalse, loginTrue: this.loginTrue})}
+        <Row>
+          <Col xs={10} xsOffset={1}>
+            {React.cloneElement(this.props.children, {loggedIn: this.state.loggedIn, loginFalse: this.loginFalse, loginTrue: this.loginTrue})}
+          </Col>
+        </Row>
+        <div style={{marginTop: '52'}}>
+          <Navbar fixedBottom inverse>
+            <div>@cobaltart2017</div>
+          </Navbar>
         </div>
-        <Navbar inverse>
-          <div>@cobaltart2017</div>
-        </Navbar>
       </div>
     )
   }
