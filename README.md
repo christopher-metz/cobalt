@@ -62,5 +62,4 @@ Anna opens the app and picks her favorite painting The Rain Princess, and upload
 - Christopher Metz (https://github.com/christopher-metz)
 
 #### Citations
-- https://github.com/lengstrom/fast-style-transfer
-- Copyright (c) 2016 Logan Engstrom.
+- https://github.com/lengstrom/fast-style-transfer, Copyright (c) 2016 Logan Engstrom.
